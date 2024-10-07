@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpm84dseq2m1q"]
+
+[ext_resource type="Script" path="res://scenes/npc/npc.gd" id="1_3vhv5"]
+[ext_resource type="Texture2D" uid="uid://b8kmwcaudwpk1" path="res://assets/images/soldier1_gun.png" id="1_ntg7y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kvk2k"]
+radius = 15.0
+height = 42.0
+
+[node name="NPC" type="CharacterBody2D"]
+script = ExtResource("1_3vhv5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ntg7y")
+offset = Vector2(10, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_kvk2k")
+
+[node name="DebugLabel" type="Label" parent="."]
+offset_left = -26.0
+offset_top = -101.0
+offset_right = 29.0
+offset_bottom = -26.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "DEBUG
+DEBUG
+DEBUG"
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 0, 0, 1)
