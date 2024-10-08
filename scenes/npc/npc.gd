@@ -12,7 +12,9 @@ var _speed: float = 100.0
 
 
 func _ready() -> void:
-	pass # Replace with function body.
+	var debug_marker: Marker2D = get_tree().get_first_node_in_group("debug")
+	if debug_marker:
+		_nav_agent.target_position = debug_marker.global_position
 
 
 func _physics_process(_delta: float) -> void:
