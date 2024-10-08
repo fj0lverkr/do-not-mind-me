@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=14 format=3 uid="uid://cdjl416i81huf"]
+[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://cdjl416i81huf"]
 
 [ext_resource type="Texture2D" uid="uid://cs18bnp8x4x8w" path="res://assets/spritesheets/grass.png" id="1_6o7od"]
 [ext_resource type="Texture2D" uid="uid://c0xjl301gs78a" path="res://assets/spritesheets/floor.png" id="2_fu02u"]
@@ -50,25 +50,15 @@ texture_region_size = Vector2i(64, 64)
 3:4/0 = 0
 4:4/0 = 0
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_n2v3f"]
-vertices = PackedVector2Array(32, 32, -32, 32, -32, -32, 32, -32)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)])
-agent_radius = 0.0
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_a8dyt"]
 texture = ExtResource("3_e2jld")
 margins = Vector2i(2, 2)
 separation = Vector2i(4, 4)
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
-0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_n2v3f")
 1:0/0 = 0
-1:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_n2v3f")
 2:0/0 = 0
-2:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_n2v3f")
 3:0/0 = 0
-3:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_n2v3f")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2hip6"]
 texture = ExtResource("4_2jfn5")
@@ -195,7 +185,6 @@ physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 2
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.929412, 0.231373, 0.0470588, 1)
-navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_ehrm4")
 sources/1 = SubResource("TileSetAtlasSource_q8kq4")
 sources/2 = SubResource("TileSetAtlasSource_a8dyt")
