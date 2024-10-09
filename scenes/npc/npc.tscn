@@ -7,6 +7,8 @@
 radius = 16.1245
 
 [node name="NPC" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 7
 script = ExtResource("1_3vhv5")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

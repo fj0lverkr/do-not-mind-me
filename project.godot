@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Do Not Mind Me"
+run/main_scene="res://scenes/level_map/level_map.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.svg"
 
@@ -25,6 +26,7 @@ gdscript/warnings/untyped_declaration=1
 [global_group]
 
 debug=""
+player=""
 
 [input]
 
@@ -33,6 +35,13 @@ set_target={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(93, 12),"global_position":Vector2(102, 58),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="Tiles"
+2d_physics/layer_2="Bullets"
+2d_physics/layer_3="Player"
+2d_physics/layer_4="NPC"
 
 [navigation]
 
