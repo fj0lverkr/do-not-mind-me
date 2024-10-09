@@ -98,6 +98,3 @@ polygon = PackedVector2Array(1787, 1295, 1786, 1676, 1592, 1679, 1595, 1750, 178
 
 [node name="Player" parent="." instance=ExtResource("4_vvh1k")]
 position = Vector2(980, 445)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(1, 1)
