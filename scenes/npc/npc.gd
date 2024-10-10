@@ -7,6 +7,10 @@ var _sprite: Sprite2D = $Sprite2D
 var _debug_label: Label = $DebugLabel
 @onready
 var _nav_agent: NavigationAgent2D = $NavAgent
+@onready
+var _player_detect: Node2D = $PlayerDetector
+@onready
+var _raycast: RayCast2D = $PlayerDetector/RayCast2D
 
 @export
 var _patrol_speed: float = 100.0
@@ -18,11 +22,13 @@ var _patrol_points_node: NodePath
 var _patrol_points: Array[Waypoint]
 var _current_point: int = 0
 var _is_off_patrol: bool = false
+var _player_ref: Player
 
 
 func _ready() -> void:
 	set_physics_process(false)
 	NavigationServer2D.map_changed.connect(_on_nav_map_changed)
+	_player_ref = get_tree().get_first_node_in_group(Constants.GRP_PLAYER)
 
 
 func _physics_process(_delta: float) -> void:
@@ -30,8 +36,20 @@ func _physics_process(_delta: float) -> void:
 		_set_off_patrol_target(get_global_mouse_position())
 
 	_update_navigation()
+	_point_raycast_to_player()
 	_set_debug_label()
 
+
+func _point_raycast_to_player() -> void:
+	_player_detect.look_at(_player_ref.global_position)
+
+
+func _detect_player() -> bool:
+	var c: Node = _raycast.get_collider()
+	if c != null:
+		return c.is_in_group(Constants.GRP_PLAYER)
+	else:
+		return false
 
 func _update_navigation() -> void:
 	if _nav_agent.is_target_reachable():
@@ -80,6 +98,7 @@ func _set_off_patrol_target(target: Vector2) -> void:
 
 func _set_debug_label() -> void:
 	var s: String = "TARGET %s is %s" % [_nav_agent.target_position, "reached" if _nav_agent.is_target_reached() else ("reachable" if _nav_agent.is_target_reachable() else "unreachable")]
+	s += "\nPlayer detected is %s" % _detect_player()
 	_debug_label.text = s
 
 

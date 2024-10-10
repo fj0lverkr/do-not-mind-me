@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Constants="*res://singletons/constants.gd"
 SignalBus="*res://singletons/signal_bus.gd"
 
 [debug]
