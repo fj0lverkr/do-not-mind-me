@@ -3,6 +3,21 @@ extends CharacterBody2D
 
 enum NPC_STATE {PATROLLING, CHASING, SEARCHING}
 
+const EMO_EXCLAM: Texture2D = preload("res://assets/images/emotes/8665321_exclamation_icon.png")
+const EMO_QUEST: Texture2D = preload("res://assets/images/emotes/8665727_question_icon.png")
+
+const FOV: Dictionary = {
+	NPC_STATE.PATROLLING: 60,
+	NPC_STATE.SEARCHING: 100,
+	NPC_STATE.CHASING: 120
+}
+
+const SPEED: Dictionary = {
+	NPC_STATE.PATROLLING: 60,
+	NPC_STATE.SEARCHING: 80,
+	NPC_STATE.CHASING: 100
+}
+
 @onready
 var _sprite: Sprite2D = $Sprite2D
 @onready
@@ -13,11 +28,11 @@ var _nav_agent: NavigationAgent2D = $NavAgent
 var _player_detect: Node2D = $PlayerDetector
 @onready
 var _raycast: RayCast2D = $PlayerDetector/RayCast2D
+@onready
+var _emote: Sprite2D = $Emote
+@onready
+var _sfx: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
-@export
-var _patrol_speed: float = 100.0
-@export
-var _chase_speed: float = 160.0
 @export
 var _patrol_points_node: NodePath
 
@@ -25,33 +40,75 @@ var _patrol_points: Array[Waypoint]
 var _current_point: int = 0
 var _is_off_patrol: bool = false
 var _player_ref: Player
-var _fov: float = 60.0
 var _current_state: NPC_STATE = NPC_STATE.PATROLLING
-var _current_speed: float
+var _tween: Tween
 
 
 func _ready() -> void:
+	_emote.hide()
 	set_physics_process(false)
 	NavigationServer2D.map_changed.connect(_on_nav_map_changed)
 	_player_ref = get_tree().get_first_node_in_group(Constants.GRP_PLAYER)
-	_current_speed = _patrol_speed
 
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_released("set_target"):
 		_set_off_patrol_target(get_global_mouse_position())
 
-	_set_state()
-	_update_navigation()
 	_point_raycast_to_player()
+	_update_state()
+	_update_navigation()
+
 	_set_debug_label()
 
 
-func _set_state() -> void:
+func _animate_state(s: NPC_STATE) -> void:
+	if _tween:
+		_reset_tween()
+
+	_tween = create_tween()
+
+	match s:
+		NPC_STATE.CHASING:
+			_tween.set_loops()
+			_tween.tween_property(_sprite, "modulate", Color.RED, 0.2).set_trans(Tween.TRANS_SINE)
+			_tween.tween_property(_sprite, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_SINE)
+
+		NPC_STATE.SEARCHING:
+			_tween.set_loops()
+			_tween.tween_property(_sprite, "modulate", Color.YELLOW, 0.3).set_trans(Tween.TRANS_SINE)
+			_tween.tween_property(_sprite, "modulate", Color.WHITE, 0.3).set_trans(Tween.TRANS_SINE)
+
+
+func _reset_tween() -> void:
+	_tween.kill()
+	var t: Tween = create_tween()
+	t.tween_property(_sprite, "modulate", Color.WHITE, 0.01)
+
+
+func _set_state(s: NPC_STATE) -> void:
+	if _current_state != s:
+		match s:
+			NPC_STATE.PATROLLING:
+				_emote.hide()
+			NPC_STATE.SEARCHING:
+				_emote.texture = EMO_QUEST
+				_emote.show()
+			NPC_STATE.CHASING:
+				_emote.texture = EMO_EXCLAM
+				_emote.show()
+				SoundManager.play_2d(_sfx, SoundManager.SOUND.GASP)
+	
+		_animate_state(s)
+
+	_current_state = s
+
+
+func _update_state() -> void:
 	if _can_see_player():
-		_current_state = NPC_STATE.CHASING
-	else:
-		_current_state = NPC_STATE.PATROLLING
+			_set_state(NPC_STATE.CHASING)
+	elif !_can_see_player() && _current_state == NPC_STATE.CHASING:
+		_set_state(NPC_STATE.SEARCHING)
 
 	_process_movement()
 
@@ -65,7 +122,7 @@ func _get_angle_to_player() -> float:
 
 
 func _player_in_fov() -> bool:
-	return _get_angle_to_player() <= _fov
+	return _get_angle_to_player() <= FOV[_current_state]
 
 
 func _point_raycast_to_player() -> void:
@@ -89,10 +146,11 @@ func _update_navigation() -> void:
 		if not _nav_agent.is_navigation_finished():
 			var next_nav_point: Vector2 = _nav_agent.get_next_path_position()
 			_sprite.look_at(next_nav_point)
-			velocity = global_position.direction_to(next_nav_point) * _current_speed
+			velocity = global_position.direction_to(next_nav_point) * SPEED[_current_state]
 			move_and_slide()
 		else:
-			_patrol_to(_get_next_patrol_point())
+			if _current_state == NPC_STATE.PATROLLING:
+				_patrol_to(_get_next_patrol_point())
 
 
 func _set_patrol_points() -> void:
@@ -117,17 +175,15 @@ func _get_previous_patrol_point() -> int:
 
 func _patrol_to(point_index: int) -> void:
 	_nav_agent.target_position = _patrol_points[point_index].global_position
-	_update_navigation()
 	_set_debug_label()
 
 
-func _process_patrolling() -> void:
-	_current_speed = _patrol_speed
-	_update_navigation()
+func _process_searching() -> void:
+	if _nav_agent.is_navigation_finished():
+		_set_state(NPC_STATE.PATROLLING)
 
 
 func _navigate_to_player() -> void:
-	_current_speed = _chase_speed
 	_set_off_patrol_target(_player_ref.global_position)
 
 
@@ -141,17 +197,18 @@ func _set_off_patrol_target(target: Vector2) -> void:
 
 func _process_movement() -> void:
 	match _current_state:
-		NPC_STATE.PATROLLING:
-			_process_patrolling()
+		NPC_STATE.SEARCHING:
+			_process_searching()
 		NPC_STATE.CHASING:
 			_navigate_to_player()
 
 
 func _set_debug_label() -> void:
 	var s: String = "TARGET %s is %s" % [_nav_agent.target_position, "reached" if _nav_agent.is_target_reached() else ("reachable" if _nav_agent.is_target_reachable() else "unreachable")]
-	s += "\nSpeed: %s" % _current_speed
+	s += "\nSpeed: %s" % SPEED[_current_state]
 	s += "\nPlayer detected is %s" % _detect_player()
-	s += "\nPlayer at %.2f° is in FOV: %s" % [_get_angle_to_player(), _player_in_fov()]
+	s += "\nPlayer at %.2f° is in FOV: %s (%s)" % [_get_angle_to_player(), _player_in_fov(), FOV[_current_state]]
+	s += "\nState: %s" % NPC_STATE.find_key(_current_state)
 
 	_debug_label.text = s
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpm84dseq2m1q"]
+[gd_scene load_steps=5 format=3 uid="uid://bpm84dseq2m1q"]
 
 [ext_resource type="Script" path="res://scenes/npc/npc.gd" id="1_3vhv5"]
 [ext_resource type="Texture2D" uid="uid://b8kmwcaudwpk1" path="res://assets/images/soldier1_gun.png" id="1_ntg7y"]
+[ext_resource type="Texture2D" uid="uid://c243wedjtikc1" path="res://assets/images/emotes/8665321_exclamation_icon.png" id="3_bsjub"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8rcy0"]
 radius = 16.1245
@@ -19,10 +20,10 @@ offset = Vector2(10, 0)
 shape = SubResource("CircleShape2D_8rcy0")
 
 [node name="DebugLabel" type="Label" parent="."]
-offset_left = -26.0
-offset_top = -101.0
-offset_right = 29.0
-offset_bottom = -26.0
+offset_left = 53.0
+offset_top = -141.0
+offset_right = 108.0
+offset_bottom = -66.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "DEBUG
 DEBUG
@@ -39,3 +40,10 @@ debug_path_custom_color = Color(1, 0, 0, 1)
 rotation = -1.5708
 target_position = Vector2(0, 400)
 collision_mask = 5
+
+[node name="Emote" type="Sprite2D" parent="."]
+position = Vector2(0, -40)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_bsjub")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
