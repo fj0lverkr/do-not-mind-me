@@ -66,6 +66,9 @@ func _animate_state(s: NPC_STATE) -> void:
 	if _tween:
 		_reset_tween()
 
+	if s == NPC_STATE.PATROLLING:
+		return
+
 	_tween = create_tween()
 
 	match s:
