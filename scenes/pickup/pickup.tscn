@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhoijn5rfaim2"]
+
+[ext_resource type="Script" path="res://scenes/pickup/pickup.gd" id="1_24x6r"]
+[ext_resource type="Texture2D" uid="uid://dd7o6makotudk" path="res://assets/images/pill1.png" id="1_ecwmu"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uk58p"]
+radius = 10.5
+height = 50.0
+
+[node name="Pickup" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_24x6r")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 0.346371, 1)
+scale = Vector2(0.798044, 0.798044)
+texture = ExtResource("1_ecwmu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 0.758544
+scale = Vector2(0.798044, 0.798044)
+shape = SubResource("CapsuleShape2D_uk58p")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]
