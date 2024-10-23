@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=4 uid="uid://cyh7n2d4cssp5"]
+[gd_scene load_steps=9 format=4 uid="uid://cyh7n2d4cssp5"]
 
+[ext_resource type="Script" path="res://scenes/level_map/level_map.gd" id="1_1q1k7"]
 [ext_resource type="TileSet" uid="uid://cdjl416i81huf" path="res://assets/level_tileset.tres" id="1_cs015"]
 [ext_resource type="PackedScene" uid="uid://bpm84dseq2m1q" path="res://scenes/npc/npc.tscn" id="2_xdhus"]
 [ext_resource type="PackedScene" uid="uid://25pmq8donxlx" path="res://scenes/waypoint/waypoint.tscn" id="3_hart7"]
@@ -19,6 +20,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(1159, 387, 1154, 724, 1
 agent_radius = 28.0
 
 [node name="LevelMap" type="Node2D"]
+script = ExtResource("1_1q1k7")
 
 [node name="Tiles" type="Node2D" parent="."]
 

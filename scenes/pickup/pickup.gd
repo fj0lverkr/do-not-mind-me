@@ -37,8 +37,7 @@ func _animate_vanish() -> void:
 		_tween.kill()
 	
 	_tween = create_tween()
-	_tween.parallel().tween_property(_sprite, "scale", Vector2(0.01, 0.01), DURATION / 2)
-	_tween.parallel().tween_property(_collider, "scale", Vector2(0.0, 0.0), 0.01)
+	_tween.parallel().tween_property(_sprite, "scale", Vector2(0.01, 0.01), DURATION / 3)
 
 
 func _play_sound() -> void:
@@ -49,11 +48,11 @@ func _on_body_entered(body: Node2D) -> void:
 	if not body is Player:
 		return
 
-	SignalBus.on_pickup_taken.emit()
+	set_deferred("monitoring", false)
 	_animate_vanish()
+	SignalBus.on_pickup_taken.emit()
 	_play_sound()
 
 
 func _on_audio_stream_player_2d_finished() -> void:
 	queue_free()
-	pass
