@@ -1,8 +1,13 @@
 class_name Player
 extends CharacterBody2D
 
+@onready
+var _arrow: Sprite2D = $ExitPointer
+
 @export
 var _speed: float = 130.0
+@export
+var _exit_node: Exit
 
 
 func _ready() -> void:
@@ -10,6 +15,8 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+    if _exit_node:
+        _arrow.look_at(_exit_node.global_position)
     _process_input()
     move_and_slide()
 
