@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ss036b3v3gy6"]
+
+[ext_resource type="Texture2D" uid="uid://dd1fgsqot5dm8" path="res://assets/images/arrow.png" id="1_23hum"]
+[ext_resource type="Script" path="res://scenes/pointer/pointer.gd" id="2_gp104"]
+
+[node name="Pointer" type="Sprite2D"]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_23hum")
+offset = Vector2(750, 0)
+script = ExtResource("2_gp104")

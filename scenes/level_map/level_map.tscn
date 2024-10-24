@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://cyh7n2d4cssp5"]
+[gd_scene load_steps=11 format=4 uid="uid://cyh7n2d4cssp5"]
 
 [ext_resource type="Script" path="res://scenes/level_map/level_map.gd" id="1_1q1k7"]
 [ext_resource type="TileSet" uid="uid://cdjl416i81huf" path="res://assets/level_tileset.tres" id="1_cs015"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bvb5cnvoqb8t3" path="res://scenes/player/player.tscn" id="4_vvh1k"]
 [ext_resource type="PackedScene" uid="uid://bhoijn5rfaim2" path="res://scenes/pickup/pickup.tscn" id="5_746j6"]
 [ext_resource type="PackedScene" uid="uid://dxhq8a4r1v4y8" path="res://scenes/exit/exit.tscn" id="7_t6fco"]
+[ext_resource type="PackedScene" uid="uid://ss036b3v3gy6" path="res://scenes/pointer/pointer.tscn" id="8_f3aj7"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_vr77x"]
 vertices = PackedVector2Array(1436.45, 1496.85, 1487.76, 1418.17, 1374.04, 1971.94, 1434.55, 1379.07, 1175.92, 716.773, 1051.91, 1378.07, 1050.91, 1060.85, 1180.63, 351.648, 984.539, 997, 859, 730.953, 859, 356, 859.938, 347.672, 1053, 1498.85, 1053, 1815.68, 869, 1180.92, 930.773, 1178.92, 929.219, 1379, 550, 1379, 285.703, 1376.41, 931.102, 1498.85, 931.883, 1699.54, 869.43, 1698.56, 550, 1496.85, 675.438, 1949.14, 923.141, 2011, 925.141, 2077.33, 675.211, 2080.3, 416.594, 2016.34, 868.43, 1763.12, 804.422, 1761.12, 223.188, 1375.43, 226.797, 863.453, 289.039, 864.461, 869, 997, 670.688, 286.578, 739.781, 356, 741.781, 613, 293.438, 613, 412, 222.891, 288.031, 159.844, 412, 159.148, 473.539, 2206.5, 419.563, 2207.48, 472.547, 2145.72, 924, 1947.86, 924, 1883, 986.703, 1883, 803.406, 1830, 673.547, 1830, 352.813, 1440.87, 1373.43, 2011, 985.547, 1058.83, 291.547, 732.063, 857.93, 289.57, 356.813, 2013.35, 666.711, 223.891, 288.719, 1438.83, 989.75, 1818.74, 670.18, 2140.65)
@@ -42,7 +43,7 @@ tile_map_data = PackedByteArray("AAADAAMAAwABAAIAAAADAAIAAwABAAIAAAADAAQAAwABAAI
 tile_set = ExtResource("1_cs015")
 
 [node name="Exit" parent="." instance=ExtResource("7_t6fco")]
-position = Vector2(1655, 684)
+position = Vector2(4092, 2040)
 
 [node name="Pickups" type="Node" parent="."]
 
@@ -114,6 +115,9 @@ position = Vector2(1219, 111)
 color = Color(0, 1, 0, 0.282353)
 polygon = PackedVector2Array(1787, 1295, 1786, 1676, 1592, 1679, 1595, 1750, 1786, 1749, 1786, 1877, 1855, 1876, 1857, 1749, 2432, 1749, 2433, 1615, 2361, 1615, 2362, 1680, 1857, 1678, 1854, 1296)
 
-[node name="Player" parent="." node_paths=PackedStringArray("_exit_node") instance=ExtResource("4_vvh1k")]
+[node name="Player" parent="." instance=ExtResource("4_vvh1k")]
 position = Vector2(980, 445)
-_exit_node = NodePath("../Exit")
+
+[node name="Pointer" parent="." node_paths=PackedStringArray("point_from", "point_to") instance=ExtResource("8_f3aj7")]
+point_from = NodePath("../Player")
+point_to = NodePath("../Exit")
