@@ -18,6 +18,8 @@ const SPEED: Dictionary = {
 	NPC_STATE.CHASING: 100
 }
 
+const MIN_DISTANCE: float = 150.0
+
 @onready
 var _sprite_and_gun: Node2D = $SpriteAndGun
 @onready
@@ -115,6 +117,10 @@ func _update_state() -> void:
 	_process_movement()
 
 
+func _get_distance_to_player() -> float:
+	return global_position.distance_to(_player_ref.global_position)
+
+
 func _get_angle_to_player() -> float:
 	var direction: Vector2 = global_position.direction_to(_player_ref.global_position)
 	var dot_product: float = direction.dot(velocity.normalized())
@@ -149,7 +155,10 @@ func _update_navigation() -> void:
 			var next_nav_point: Vector2 = _nav_agent.get_next_path_position()
 			_sprite_and_gun.look_at(next_nav_point)
 			velocity = global_position.direction_to(next_nav_point) * SPEED[_current_state]
-			move_and_slide()
+
+			if _current_state != NPC_STATE.CHASING or _get_distance_to_player() >= MIN_DISTANCE:
+				move_and_slide()
+				
 		else:
 			if _current_state == NPC_STATE.PATROLLING:
 				_patrol_to(_get_next_patrol_point())
@@ -209,7 +218,7 @@ func _set_debug_label() -> void:
 	var s: String = "TARGET %s is %s" % [_nav_agent.target_position, "reached" if _nav_agent.is_target_reached() else ("reachable" if _nav_agent.is_target_reachable() else "unreachable")]
 	s += "\nSpeed: %s" % SPEED[_current_state]
 	s += "\nPlayer detected is %s" % _detect_player()
-	s += "\nPlayer at %.2f° is in FOV: %s (%s)" % [_get_angle_to_player(), _player_in_fov(), FOV[_current_state]]
+	s += "\nPlayer at %.2f distance is in FOV: %s (%s)" % [_get_distance_to_player(), _player_in_fov(), FOV[_current_state]]
 	s += "\nState: %s" % NPC_STATE.find_key(_current_state)
 
 	_debug_label.text = s
