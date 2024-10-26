@@ -20,7 +20,9 @@ const PICKUPS: Array[AudioStream] = [
 
 const EXPLOSION: AudioStream = preload("res://assets/sounds/sfx_exp_medium4.wav")
 
-enum SOUND {GASP, PICKUP, EXPLOSION}
+const LASER: AudioStream = preload("res://assets/sounds/sfx_wpn_laser2.wav")
+
+enum SOUND {GASP, PICKUP, EXPLOSION, LASER}
 
 
 func play_2d(p: AudioStreamPlayer2D, s: SOUND) -> void:
@@ -31,5 +33,7 @@ func play_2d(p: AudioStreamPlayer2D, s: SOUND) -> void:
             p.stream = PICKUPS.pick_random()
         SOUND.EXPLOSION:
             p.stream = EXPLOSION
+        SOUND.LASER:
+            p.stream = LASER
     
     p.play()

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cihygiqg7aitu"]
+
+[ext_resource type="Script" path="res://scenes/gun/gun.gd" id="1_5mllo"]
+
+[node name="Gun" type="Node2D"]
+script = ExtResource("1_5mllo")
+
+[node name="SFX" type="AudioStreamPlayer2D" parent="."]

@@ -19,7 +19,7 @@ const SPEED: Dictionary = {
 }
 
 @onready
-var _sprite: Sprite2D = $Sprite2D
+var _sprite_and_gun: Node2D = $SpriteAndGun
 @onready
 var _debug_label: Label = $DebugLabel
 @onready
@@ -32,6 +32,8 @@ var _raycast: RayCast2D = $PlayerDetector/RayCast2D
 var _emote: Sprite2D = $Emote
 @onready
 var _sfx: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready
+var _gun: Gun = $SpriteAndGun/Gun
 
 @export
 var _patrol_points_node: NodePath
@@ -52,9 +54,6 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_released("set_target"):
-		_set_off_patrol_target(get_global_mouse_position())
-
 	_point_raycast_to_player()
 	_update_state()
 	_update_navigation()
@@ -74,19 +73,19 @@ func _animate_state(s: NPC_STATE) -> void:
 	match s:
 		NPC_STATE.CHASING:
 			_tween.set_loops()
-			_tween.tween_property(_sprite, "modulate", Color.RED, 0.2).set_trans(Tween.TRANS_SINE)
-			_tween.tween_property(_sprite, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_SINE)
+			_tween.tween_property(_sprite_and_gun, "modulate", Color.RED, 0.2).set_trans(Tween.TRANS_SINE)
+			_tween.tween_property(_sprite_and_gun, "modulate", Color.WHITE, 0.2).set_trans(Tween.TRANS_SINE)
 
 		NPC_STATE.SEARCHING:
 			_tween.set_loops()
-			_tween.tween_property(_sprite, "modulate", Color.YELLOW, 0.3).set_trans(Tween.TRANS_SINE)
-			_tween.tween_property(_sprite, "modulate", Color.WHITE, 0.3).set_trans(Tween.TRANS_SINE)
+			_tween.tween_property(_sprite_and_gun, "modulate", Color.YELLOW, 0.3).set_trans(Tween.TRANS_SINE)
+			_tween.tween_property(_sprite_and_gun, "modulate", Color.WHITE, 0.3).set_trans(Tween.TRANS_SINE)
 
 
 func _reset_tween() -> void:
 	_tween.kill()
 	var t: Tween = create_tween()
-	t.tween_property(_sprite, "modulate", Color.WHITE, 0.01)
+	t.tween_property(_sprite_and_gun, "modulate", Color.WHITE, 0.01)
 
 
 func _set_state(s: NPC_STATE) -> void:
@@ -148,7 +147,7 @@ func _update_navigation() -> void:
 	if _nav_agent.is_target_reachable():
 		if not _nav_agent.is_navigation_finished():
 			var next_nav_point: Vector2 = _nav_agent.get_next_path_position()
-			_sprite.look_at(next_nav_point)
+			_sprite_and_gun.look_at(next_nav_point)
 			velocity = global_position.direction_to(next_nav_point) * SPEED[_current_state]
 			move_and_slide()
 		else:
@@ -216,8 +215,19 @@ func _set_debug_label() -> void:
 	_debug_label.text = s
 
 
+func _shoot() -> void:
+	_gun.shoot(_player_ref.global_position)
+
+
 func _on_nav_map_changed(_map: RID) -> void:
 	if !is_physics_processing():
 		set_physics_process(true)
 		_set_patrol_points()
 		_patrol_to(_current_point)
+
+
+func _on_shoot_timer_timeout() -> void:
+	if _current_state != NPC_STATE.CHASING:
+		return
+
+	_shoot()
