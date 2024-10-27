@@ -9,6 +9,7 @@ var _exit: Exit = $Exit
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SignalBus.on_level_start.emit(_pickups.get_child_count())
 	SignalBus.on_pickup_taken.connect(_on_pickup_taken)
 	SignalBus.on_request_exit.connect(_on_request_exit)
 	SignalBus.on_exit.connect(_on_exit)
