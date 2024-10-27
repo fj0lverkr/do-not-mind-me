@@ -25,5 +25,5 @@ func _on_request_exit() -> void:
 	_exit.activate()
 
 
-func _on_exit() -> void:
-	print("exit level")
+func _on_exit(_w: bool) -> void:
+	get_tree().paused = true

@@ -34,6 +34,6 @@ func _point_at() -> void:
 	look_at(point_to.global_position)
 
 
-func _on_exit() -> void:
+func _on_exit(_w: bool) -> void:
 	hide()
 	set_process(false)

@@ -41,3 +41,5 @@ func _remove_bullet(explosion: bool) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
     _remove_bullet(not body is Player)
+    if body is Player:
+        SignalBus.on_exit.emit(false)

@@ -17,4 +17,4 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 
 	set_deferred("monitoring", false)
-	SignalBus.on_exit.emit()
+	SignalBus.on_exit.emit(true)

@@ -5,10 +5,6 @@ extends CharacterBody2D
 var _speed: float = 130.0
 
 
-func _ready() -> void:
-    pass
-
-
 func _physics_process(_delta: float) -> void:
     _process_input()
     move_and_slide()
