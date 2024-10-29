@@ -13,4 +13,5 @@ func create_explosion(pos: Vector2) -> void:
 func create_bullet(pos: Vector2, target: Vector2) -> void:
     var b: Bullet = BULLET.instantiate()
     b.setup(pos, target)
+    b.add_to_group(Constants.GRP_BULLET)
     get_tree().root.add_child(b)

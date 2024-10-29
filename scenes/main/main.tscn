@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=3 uid="uid://x6dgabr08iya"]
+
+[ext_resource type="Script" path="res://scenes/main/main.gd" id="1_mcg2m"]
+[ext_resource type="FontFile" uid="uid://dkkfk4sra13ad" path="res://assets/fonts/LuckiestGuy-Regular.ttf" id="2_2wv8a"]
+[ext_resource type="FontFile" uid="uid://mmg75wuf04up" path="res://assets/fonts/gemunu-libre-v8-latin-700.ttf" id="3_4kag2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_nyvl3"]
+font = ExtResource("2_2wv8a")
+font_size = 64
+font_color = Color(0.564706, 0.305882, 0.333333, 1)
+outline_size = 6
+outline_color = Color(0.145098, 0.14902, 0.152941, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mcg2m")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.337255, 0.305882, 0.345098, 1)
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MC"]
+layout_mode = 2
+
+[node name="Spacer" type="Label" parent="MC/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="Label" type="Label" parent="MC/VBoxContainer"]
+layout_mode = 2
+text = "STEALTH GAME"
+label_settings = SubResource("LabelSettings_nyvl3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spacer2" type="Label" parent="MC/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="HB" type="HBoxContainer" parent="MC/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnStart" type="Button" parent="MC/VBoxContainer/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_4kag2")
+theme_override_font_sizes/font_size = 64
+text = "Start Game"
+
+[node name="Spacer" type="Label" parent="MC/VBoxContainer/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnExit" type="Button" parent="MC/VBoxContainer/HB"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_4kag2")
+theme_override_font_sizes/font_size = 64
+text = "Exit"
+
+[connection signal="pressed" from="MC/VBoxContainer/HB/BtnStart" to="." method="_on_btn_start_pressed"]
+[connection signal="pressed" from="MC/VBoxContainer/HB/BtnExit" to="." method="_on_btn_exit_pressed"]

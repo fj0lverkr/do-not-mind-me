@@ -39,6 +39,8 @@ var _gun: Gun = $SpriteAndGun/Gun
 
 @export
 var _patrol_points_node: NodePath
+@export
+var _show_debug: bool = false
 
 var _patrol_points: Array[Waypoint]
 var _current_point: int = 0
@@ -46,10 +48,13 @@ var _is_off_patrol: bool = false
 var _player_ref: Player
 var _current_state: NPC_STATE = NPC_STATE.PATROLLING
 var _tween: Tween
+var _can_shoot: bool = true
 
 
 func _ready() -> void:
 	_emote.hide()
+	if _show_debug:
+		_debug_label.show()
 	set_physics_process(false)
 	NavigationServer2D.map_changed.connect(_on_nav_map_changed)
 	_player_ref = get_tree().get_first_node_in_group(Constants.GRP_PLAYER)
@@ -61,6 +66,10 @@ func _physics_process(_delta: float) -> void:
 	_update_navigation()
 
 	_set_debug_label()
+
+
+func disable_shooting() -> void:
+	_can_shoot = false
 
 
 func _animate_state(s: NPC_STATE) -> void:
@@ -236,7 +245,7 @@ func _on_nav_map_changed(_map: RID) -> void:
 
 
 func _on_shoot_timer_timeout() -> void:
-	if _current_state != NPC_STATE.CHASING:
+	if _current_state != NPC_STATE.CHASING or !_can_shoot:
 		return
 
 	_shoot()

@@ -12,10 +12,15 @@ var _label_timer: Label = $MC/LabelTimer
 @onready
 var _game_over_rect: ColorRect = $GameOverRect
 @onready
-var _game_over_label: Label = $GameOverRect/Label
+var _game_over_label: Label = $GameOverRect/VBoxContainer/Label
+@onready
+var _game_over_timer: Timer = $TimerGameOver
+@onready
+var _menu_label: Label = $GameOverRect/VBoxContainer/LabelMenu
 
 var _pickups: int
 var _taken: int = 0
+var _click_enabled: bool = false
 
 
 func _ready() -> void:
@@ -27,6 +32,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
     _label_timer.text = _format_time(Time.get_ticks_msec())
+    if _click_enabled and Input.is_action_just_pressed("lmb"):
+        SceneManager.load_scene(SceneManager.SCENES.MAIN)
 
 
 func _update_pickup_label() -> void:
@@ -57,7 +64,17 @@ func _on_request_exit() -> void:
 
 
 func _on_exit(win: bool) -> void:
+    _label_pickups.hide()
+    _label_exit.hide()
+    _label_timer.hide()
+    var end_time: int = Time.get_ticks_msec()
     var go: String = "You win!" if win else "You died!"
-    go += "\nTime taken: %s" % _format_time(Time.get_ticks_msec())
+    go += "\nTime taken: %s" % _format_time(end_time)
     _game_over_label.text = go
     _game_over_rect.show()
+    _game_over_timer.start()
+
+
+func _on_timer_game_over_timeout() -> void:
+    _menu_label.show()
+    _click_enabled = true

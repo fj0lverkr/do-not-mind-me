@@ -58,17 +58,33 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.564706, 0.305882, 0.333333, 0.670588)
 
-[node name="Label" type="Label" parent="GameOverRect"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverRect"]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -32.0
-offset_bottom = 32.0
+offset_top = -45.5
+offset_bottom = 45.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Label" type="Label" parent="GameOverRect/VBoxContainer"]
+layout_mode = 2
 text = "Game Over!"
 label_settings = ExtResource("3_jvh2w")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LabelMenu" type="Label" parent="GameOverRect/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Click to exit"
+label_settings = ExtResource("2_6jaj6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerGameOver" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="TimerGameOver" to="." method="_on_timer_game_over_timeout"]

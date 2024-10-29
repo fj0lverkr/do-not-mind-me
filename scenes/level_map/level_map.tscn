@@ -81,7 +81,7 @@ position = Vector2(457, 2118)
 [node name="Waypoint6" parent="Patrol1" instance=ExtResource("3_hart7")]
 position = Vector2(732, 1624)
 
-[node name="NPC" parent="." instance=ExtResource("2_xdhus")]
+[node name="NPC" parent="." groups=["enemy"] instance=ExtResource("2_xdhus")]
 position = Vector2(544, 419)
 _patrol_points_node = NodePath("../Patrol1")
 

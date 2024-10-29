@@ -15,6 +15,18 @@ func _ready() -> void:
 	SignalBus.on_exit.connect(_on_exit)
 
 
+func _stop_game() -> void:
+	for p: Player in get_tree().get_nodes_in_group(Constants.GRP_PLAYER):
+		p.set_physics_process(false)
+
+	for n: NPC in get_tree().get_nodes_in_group(Constants.GRP_NPC):
+		n.set_physics_process(false)
+		n.disable_shooting()
+
+	for b: Bullet in get_tree().get_nodes_in_group(Constants.GRP_BULLET):
+		b.queue_free()
+
+
 func _on_pickup_taken() -> void:
 	if _pickups.get_child_count() - 1 > 0:
 		return
@@ -27,4 +39,4 @@ func _on_request_exit() -> void:
 
 
 func _on_exit(_w: bool) -> void:
-	get_tree().paused = true
+	_stop_game()
