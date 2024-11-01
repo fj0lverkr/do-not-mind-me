@@ -53,37 +53,91 @@ position = Vector2(4092, 2040)
 [node name="Pickups" type="Node" parent="."]
 
 [node name="Pickup" parent="Pickups" instance=ExtResource("5_746j6")]
-position = Vector2(1274, 491)
+position = Vector2(3924, 1937)
 
 [node name="Pickup2" parent="Pickups" instance=ExtResource("5_746j6")]
-position = Vector2(1377, 580)
+position = Vector2(3024, 731)
 
 [node name="Pickup3" parent="Pickups" instance=ExtResource("5_746j6")]
-position = Vector2(1450, 666)
+position = Vector2(2920, 1691)
+
+[node name="Pickup4" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(3277, 1677)
+
+[node name="Pickup5" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(1699, 1394)
+
+[node name="Pickup6" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(4284, 467)
+
+[node name="Pickup7" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(346, 220)
+
+[node name="Pickup8" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(436, 1433)
+
+[node name="Pickup9" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(439, 2172)
+
+[node name="Pickup10" parent="Pickups" instance=ExtResource("5_746j6")]
+position = Vector2(2160, 715)
 
 [node name="Patrol1" type="Node2D" parent="."]
 
 [node name="Waypoint" parent="Patrol1" instance=ExtResource("3_hart7")]
-position = Vector2(789, 1299)
-
-[node name="Waypoint2" parent="Patrol1" instance=ExtResource("3_hart7")]
-position = Vector2(925, 895)
-
-[node name="Waypoint3" parent="Patrol1" instance=ExtResource("3_hart7")]
-position = Vector2(1167, 1303)
+position = Vector2(3510, 1528)
 
 [node name="Waypoint4" parent="Patrol1" instance=ExtResource("3_hart7")]
-position = Vector2(1245, 1718)
+position = Vector2(3043, 1292)
 
-[node name="Waypoint5" parent="Patrol1" instance=ExtResource("3_hart7")]
-position = Vector2(457, 2118)
+[node name="Waypoint3" parent="Patrol1" instance=ExtResource("3_hart7")]
+position = Vector2(2885, 1951)
 
-[node name="Waypoint6" parent="Patrol1" instance=ExtResource("3_hart7")]
-position = Vector2(732, 1624)
+[node name="Waypoint2" parent="Patrol1" instance=ExtResource("3_hart7")]
+position = Vector2(3836, 1946)
+
+[node name="Patrol2" type="Node2D" parent="."]
+
+[node name="Waypoint" parent="Patrol2" instance=ExtResource("3_hart7")]
+position = Vector2(2595, 2059)
+
+[node name="Waypoint2" parent="Patrol2" instance=ExtResource("3_hart7")]
+position = Vector2(2588, 1324)
+
+[node name="Patrol3" type="Node2D" parent="."]
+
+[node name="Waypoint" parent="Patrol3" instance=ExtResource("3_hart7")]
+position = Vector2(2588, 1255)
+
+[node name="Waypoint2" parent="Patrol3" instance=ExtResource("3_hart7")]
+position = Vector2(2538, 486)
+
+[node name="Patrol4" type="Node2D" parent="."]
+
+[node name="Waypoint" parent="Patrol4" instance=ExtResource("3_hart7")]
+position = Vector2(4186, 518)
+
+[node name="Waypoint2" parent="Patrol4" instance=ExtResource("3_hart7")]
+position = Vector2(3710, 194)
+
+[node name="Waypoint3" parent="Patrol4" instance=ExtResource("3_hart7")]
+position = Vector2(2814, 466)
 
 [node name="NPC" parent="." groups=["enemy"] instance=ExtResource("2_xdhus")]
-position = Vector2(544, 419)
+position = Vector2(3142, 1710)
 _patrol_points_node = NodePath("../Patrol1")
+
+[node name="NPC2" parent="." groups=["enemy"] instance=ExtResource("2_xdhus")]
+position = Vector2(2597, 2056)
+_patrol_points_node = NodePath("../Patrol2")
+
+[node name="NPC3" parent="." groups=["enemy"] instance=ExtResource("2_xdhus")]
+position = Vector2(2587, 1249)
+_patrol_points_node = NodePath("../Patrol3")
+
+[node name="NPC4" parent="." groups=["enemy"] instance=ExtResource("2_xdhus")]
+position = Vector2(2863, 529)
+_patrol_points_node = NodePath("../Patrol4")
 
 [node name="Nav" type="Node2D" parent="."]
 
@@ -121,7 +175,7 @@ color = Color(0, 1, 0, 0.282353)
 polygon = PackedVector2Array(1787, 1295, 1786, 1676, 1592, 1679, 1595, 1750, 1786, 1749, 1786, 1877, 1855, 1876, 1857, 1749, 2432, 1749, 2433, 1615, 2361, 1615, 2362, 1680, 1857, 1678, 1854, 1296)
 
 [node name="Player" parent="." instance=ExtResource("4_vvh1k")]
-position = Vector2(980, 445)
+position = Vector2(4091, 2039)
 
 [node name="Pointer" parent="." node_paths=PackedStringArray("point_from", "point_to") instance=ExtResource("8_f3aj7")]
 point_from = NodePath("../Player")
