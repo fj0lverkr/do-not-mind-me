@@ -38,6 +38,7 @@ DEBUG"
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 simplify_path = true
+avoidance_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
@@ -59,4 +60,5 @@ texture = ExtResource("3_bsjub")
 wait_time = 1.5
 autostart = true
 
+[connection signal="velocity_computed" from="NavAgent" to="." method="_on_nav_agent_velocity_computed"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

@@ -163,10 +163,10 @@ func _update_navigation() -> void:
 		if not _nav_agent.is_navigation_finished():
 			var next_nav_point: Vector2 = _nav_agent.get_next_path_position()
 			_sprite_and_gun.look_at(next_nav_point)
-			velocity = global_position.direction_to(next_nav_point) * SPEED[_current_state]
 
 			if _current_state != NPC_STATE.CHASING or _get_distance_to_player() >= MIN_DISTANCE:
-				move_and_slide()
+				var initial_velocity: Vector2 = global_position.direction_to(next_nav_point) * SPEED[_current_state]
+				_nav_agent.set_velocity(initial_velocity)
 				
 		else:
 			if _current_state == NPC_STATE.PATROLLING:
@@ -249,3 +249,8 @@ func _on_shoot_timer_timeout() -> void:
 		return
 
 	_shoot()
+
+
+func _on_nav_agent_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
+	move_and_slide()
